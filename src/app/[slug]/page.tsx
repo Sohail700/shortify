@@ -3,12 +3,14 @@ import { redirect, notFound } from 'next/navigation';
 import { connectToDB } from '@/lib/db';
 import Url from '@/models/Url';
 
-// Remove custom PageProps type
-export default async function RedirectPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+// Define PageProps type correctly
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
+export default async function RedirectPage({ params }: PageProps) {
   await connectToDB();
   const url = await Url.findOne({ shortId: params.slug });
 
