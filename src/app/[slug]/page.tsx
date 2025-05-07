@@ -3,6 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import { connectToDB } from '@/lib/db';
 import Url from '@/models/Url';
 
+// Remove custom PageProps type
 export default async function RedirectPage({
   params,
 }: {
