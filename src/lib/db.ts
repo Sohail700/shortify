@@ -4,7 +4,6 @@ const MONGODB_URI = process.env.MONGODB_URI!;
 
 console.log("MONGODB_URI", MONGODB_URI);
 
-
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
@@ -15,6 +14,8 @@ interface MongooseCache {
 }
 
 declare global {
+  // Extending the global object to include mongoose
+  // eslint-disable-next-line no-var
   var mongoose: MongooseCache | undefined;
 }
 
