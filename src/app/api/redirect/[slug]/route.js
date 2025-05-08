@@ -2,15 +2,14 @@ import { connectToDB } from '@/lib/db';
 import Url from '@/models/Url';
 import { NextResponse } from 'next/server';
 
-export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } }
-) {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request, { params }) {
   await connectToDB();
 
   try {
     const { slug } = params;
-    const url = await Url.findOne({ shortId: slug });
+    const url = await Url.findOne({ shortId: slug });  // Fixed: using slug to find the URL
 
     if (!url) {
       return NextResponse.json(

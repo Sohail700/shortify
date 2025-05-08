@@ -3,7 +3,7 @@ import Url from '@/models/Url';
 import { generateShortId, urlSchema } from '@/lib/utils';
 import { NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request) {
   await connectToDB();
 
   try {
