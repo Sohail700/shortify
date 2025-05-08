@@ -1,6 +1,12 @@
+// src/app/[slug]/page.tsx
 import { redirect } from 'next/navigation';
 
-export default function RedirectPage({ params }: { params: { slug: string } }) {
-  // Redirects to your API route which redirects to the original URL
+type Props = {
+  params: {
+    slug: string;
+  };
+};
+
+export default function RedirectPage({ params }: Props) {
   redirect(`/api/redirect/${params.slug}`);
 }

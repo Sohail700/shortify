@@ -29,10 +29,30 @@ export async function connectToDB() {
   if (cached?.conn) {
     return cached.conn;
   }
-  if (!cached?.promise) {
-    cached!.promise = mongoose.connect(MONGODB_URI).then(mongoose => mongoose);
+  
+  if (!MONGODB_URI) {
+    throw new Error('MONGODB_URI is not defined');
   }
 
-  cached!.conn = await cached!.promise;
+  if (!cached?.promise) {
+    const opts = {
+      bufferCommands: false,
+    };
+    
+    cached!.promise = mongoose.connect(MONGODB_URI, opts).then(mongoose => {
+      return mongoose;
+    }).catch(err => {
+      console.error('MongoDB connection error:', err);
+      throw err;
+    });
+  }
+
+  try {
+    cached!.conn = await cached!.promise;
+  } catch (e) {
+    cached!.promise = null;
+    throw e;
+  }
+
   return cached!.conn;
 }
