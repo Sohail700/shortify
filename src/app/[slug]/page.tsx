@@ -1,23 +1,6 @@
-// app/[slug]/page.tsx
-import { redirect, notFound } from 'next/navigation';
-import { connectToDB } from '@/lib/db';
-import Url from '@/models/Url';
+import { redirect } from 'next/navigation';
 
-// Define PageProps type correctly
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function RedirectPage({ params }: PageProps) {
-  await connectToDB();
-  const url = await Url.findOne({ shortId: params.slug });
-
-  if (!url) return notFound();
-
-  url.clicks += 1;
-  await url.save();
-
-  redirect(url.originalUrl); // Server redirect
+export default function RedirectPage({ params }: { params: { slug: string } }) {
+  // Redirects to your API route which redirects to the original URL
+  redirect(`/api/redirect/${params.slug}`);
 }
